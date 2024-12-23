@@ -1,0 +1,1 @@
+newman run My_Collection_4.postman_collection.json -e My_Environment_4.postman_environment.json -r cli,htmlextra

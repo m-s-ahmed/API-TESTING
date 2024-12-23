@@ -1,0 +1,12 @@
+//Formation newman run (Collection name with extension, first bracket not) -e (environment name with extension, first bracket not)
+
+
+newman run My_Collection_4.postman_collection.json -e My_Environment_4.postman_environment.json
+
+//Report generating
+
+newman run My_Collection_4.postman_collection.json -e My_Environment_4.postman_environment.json -r cli,html
+
+//another format
+
+newman run My_Collection_4.postman_collection.json -e My_Environment_4.postman_environment.json -r cli,htmlextra

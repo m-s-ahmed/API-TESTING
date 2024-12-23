@@ -1,0 +1,240 @@
+//Create booking
+----------------------------------------------------------
+----------------------------------------------------------
+
+//body**
+
+{
+	"firstname" : "{{First_Name}}",
+	"lastname" : "{{Last_Name}}",
+	"totalprice" : {{Total_Price}},
+	"depositpaid" : {{Deposit_Paid}},
+	"bookingdates" : {
+    	"checkin" : "{{Check_In}}",
+    	"checkout" : "{{Check_Out}}"
+	},
+	"additionalneeds" : "{{Additional_Item}}"
+}
+
+//post-response**
+
+var jsonData=pm.response.json()
+pm.environment.set("ID",jsonData.bookingid)
+
+//pre-response**
+
+//For First Name 
+
+var firstName=pm.variables.replaceIn("{{$randomFirstName}}")
+console.log(firstName)
+pm.environment.set("First_Name", firstName)
+
+//For Last Name
+
+var lastName=pm.variables.replaceIn("{{$randomLastName}}")
+console.log(lastName)
+pm.environment.set("Last_Name", lastName)
+
+//For Total Price
+
+var totalPrice=pm.variables.replaceIn("{{$randomInt}}")
+console.log(totalPrice)
+pm.environment.set("Total_Price", totalPrice)
+
+//For Date
+
+const moment=require('moment')
+const today=moment()
+console.log(today.format("YYYY-MM-DD"))
+
+var checkIn=today.add(5,'d').format("YYYY-MM-DD")
+pm.environment.set("Check_In", checkIn)
+
+var checkOut=today.add(2,'d').format("YYYY-MM-DD")
+pm.environment.set("Check_Out", checkOut)
+
+//For Additional Needs
+
+var additionalItem=pm.variables.replaceIn("{{$randomLoremWords}}")
+console.log(additionalItem)
+pm.environment.set("Additional_Item", additionalItem)
+
+//For Deposit Paid
+
+var depositPaid=pm.variables.replaceIn("{{$randomBoolean}}")
+console.log(depositPaid)
+pm.environment.set("Deposit_Paid", depositPaid)
+
+----------------------------end---------------------------------------------
+
+
+//Get booking
+//How to write test case in post response section?(Inside Get method)
+//post man ar response theke jeta respone ta passi seta environment a set hoye thaka value ar stahe check kortesi
+-------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+
+//post-response**
+
+var jsonData=pm.response.json()
+
+//Test Case for First Name
+pm.test("First Name Validation", function () {
+    pm.expect(jsonData.firstname).to.eql(pm.environment.get("First_Name"));
+});
+
+//Test Case for Last Name
+pm.test("Last Name Validation", function () {
+    pm.expect(jsonData.lastname).to.eql(pm.environment.get("Last_Name"));
+});
+
+//Test Case for Check In
+pm.test("Check In Date Validation", function(){
+    pm.expect(jsonData.bookingdates.checkin).to.eql(pm.environment.get("Check_In"));
+});
+
+//Test Case for Check Out
+pm.test("Check Out Date Validation", function(){
+    pm.expect(jsonData.bookingdates.checkout).to.eql(pm.environment.get("Check_Out"));
+});
+
+//Test Case For Additional Needs
+pm.test("Additional Needs Validation", function(){
+    pm.expect(jsonData.additionalneeds).to.eql(pm.environment.get("Additional_Item"));
+});
+
+//Test Case For Total Price
+pm.test("Total Price Validation", function(){
+    pm.expect(jsonData.totalprice.toString()).to.eql(pm.environment.get("Total_Price"));
+});
+
+//Test Case For Deposit Paid
+
+pm.test("Deposit Paid Validation", function(){
+    pm.expect(jsonData.depositpaid.toString()).to.eql(pm.environment.get("Deposit_Paid"));
+});
+
+-------------------------------------end--------------------------------------------------------
+
+//Token Generate
+----------------------------------------------
+----------------------------------------------
+//post-response**
+
+var jsonToken=pm.response.json()
+pm.environment.set("Token", jsonToken.token)
+
+//Test Case
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+----------------end-----------------------
+
+//Update Booking
+-------------------------------------
+-------------------------------------
+
+//pre-response**
+//For Updated First Name 
+
+var updatedFirstName=pm.variables.replaceIn("{{$randomFirstName}}")
+console.log(updatedFirstName)
+pm.environment.set("Updated_First_Name", updatedFirstName)
+
+//For Updated Last Name
+
+var updatedLastName=pm.variables.replaceIn("{{$randomLastName}}")
+console.log(updatedLastName)
+pm.environment.set("Updated_Last_Name", updatedLastName)
+
+//For Updated Total Price
+
+var updatedTotalPrice=pm.variables.replaceIn("{{$randomInt}}")
+console.log(updatedTotalPrice)
+pm.environment.set("Updated_Total_Price", updatedTotalPrice)
+
+//For Updated Date
+
+const moment=require('moment')
+const today=moment()
+console.log(today.format("YYYY-MM-DD"))
+
+var updatedCheckIn=today.add(10,'d').format("YYYY-MM-DD")
+console.log(updatedCheckIn)
+pm.environment.set("Updated_Check_In", updatedCheckIn)
+
+var updatedCheckOut=today.add(4,'d').format("YYYY-MM-DD")
+console.log(updatedCheckOut)
+pm.environment.set("Updated_Check_Out", updatedCheckOut)
+
+//For updated Additional Needs
+
+var updatedAdditionalItem=pm.variables.replaceIn("{{$randomLoremWords}}")
+console.log(updatedAdditionalItem)
+pm.environment.set("Updated_Additional_Item", updatedAdditionalItem)
+
+//For Updated Deposit Paid
+
+var updatedDepositPaid=pm.variables.replaceIn("{{$randomBoolean}}")
+console.log(updatedDepositPaid)
+pm.environment.set("Updated_Deposit_Paid", updatedDepositPaid)
+
+//body**
+
+{
+	"firstname" : "{{Updated_First_Name}}",
+	"lastname" : "{{Updated_Last_Name}}",
+	"totalprice" : {{Updated_Total_Price}},
+	"depositpaid" : {{Updated_Deposit_Paid}},
+	"bookingdates" : {
+    	"checkin" : "{{Updated_Check_In}}",
+    	"checkout" : "{{Updated_Check_Out}}"
+	},
+	"additionalneeds" : "{{Updated_Additional_Item}}"
+}
+------------------------end----------------------------
+
+//verify update get booking
+--------------------------------------------------------
+--------------------------------------------------------
+
+//post-response**
+var jsonData=pm.response.json()
+//Test Case 
+
+//Test Case for First Name
+pm.test("First Name Validation", function () {
+    pm.expect(jsonData.firstname).to.eql(pm.environment.get("Updated_First_Name"));
+});
+
+//Test Case for Last Name
+pm.test("Last Name Validation", function () {
+    pm.expect(jsonData.lastname).to.eql(pm.environment.get("Updated_Last_Name"));
+});
+
+//Test Case for Check In
+pm.test("Check In Date Validation", function(){
+    pm.expect(jsonData.bookingdates.checkin).to.eql(pm.environment.get("Updated_Check_In"));
+});
+
+//Test Case for Check Out
+pm.test("Check Out Date Validation", function(){
+    pm.expect(jsonData.bookingdates.checkout).to.eql(pm.environment.get("Updated_Check_Out"));
+});
+
+//Test Case For Additional Needs
+pm.test("Additional Needs Validation", function(){
+    pm.expect(jsonData.additionalneeds).to.eql(pm.environment.get("Updated_Additional_Item"));
+});
+
+//Test Case For Total Price
+pm.test("Total Price Validation", function(){
+    pm.expect(jsonData.totalprice.toString()).to.eql(pm.environment.get("Updated_Total_Price"));
+});
+
+//Test Case For Deposit Paid
+
+pm.test("Deposit Paid Validation", function(){
+    pm.expect(jsonData.depositpaid.toString()).to.eql(pm.environment.get("Updated_Deposit_Paid"));
+});
